@@ -23,9 +23,9 @@ STATUS_TOPIC = f"{BASE}/status"
 RAW_TOPIC = f"{BASE}/raw"
 
 PATTERN = re.compile(
-    r"POCSAG(?P<baud>\\d+):\\s+Address:\\s*(?P<address>\\d+)"
-    r"(?:\\s+Function:\\s*(?P<function>\\d+))?"
-    r"(?:\\s+(?P<kind>Alpha|Numeric):\\s*(?P<message>.*))?",
+    r"POCSAG(?P<baud>\d+):\s+Address:\s*(?P<address>\d+)"
+    r"(?:\s+Function:\s*(?P<function>\d+))?"
+    r"(?:\s+(?P<kind>Alpha|Numeric):\s*(?P<message>.*))?",
     re.IGNORECASE,
 )
 
@@ -34,14 +34,10 @@ DEVICE = {
     "name": "POCSAG Gateway",
     "manufacturer": "Jacob / Home Assistant",
     "model": "RTL-SDR Blog V4",
-    "sw_version": "0.2.0",
+    "sw_version": "0.2.1",
 }
 
-client = mqtt.Client(
-    mqtt.CallbackAPIVersion.VERSION2,
-    client = mqtt.Client(client_id="pocsag_gateway"),
-    clean_session=True,
-)
+client = mqtt.Client(client_id="pocsag_gateway", clean_session=True)
 if USERNAME:
     client.username_pw_set(USERNAME, PASSWORD)
 
@@ -57,7 +53,7 @@ while True:
 
 client.loop_start()
 
-def publish_discovery() -> None:
+def publish_discovery():
     entities = {
         "status": {
             "name": "Pager Gateway status",
@@ -95,14 +91,18 @@ def publish_discovery() -> None:
             "payload_available": "online",
             "payload_not_available": "offline",
         }
-        topic = f"{DISCOVERY}/sensor/pocsag_gateway_{object_id}/config"
-        client.publish(topic, json.dumps(payload, ensure_ascii=False), qos=1, retain=True)
+        client.publish(
+            f"{DISCOVERY}/sensor/pocsag_gateway_{object_id}/config",
+            json.dumps(payload, ensure_ascii=False),
+            qos=1,
+            retain=True,
+        )
 
 publish_discovery()
 client.publish(STATUS_TOPIC, "online", qos=1, retain=True)
 print(f"[mqtt] Forbundet til {HOST}:{PORT}; gateway online", flush=True)
 
-def shutdown(*_args) -> None:
+def shutdown(*_args):
     client.publish(STATUS_TOPIC, "offline", qos=1, retain=True)
     client.loop_stop()
     client.disconnect()
@@ -129,7 +129,6 @@ for raw_line in sys.stdin:
         )
         continue
 
-    message = (match.group("message") or "").strip()
     payload = {
         "timestamp": now,
         "protocol": "POCSAG",
@@ -138,7 +137,7 @@ for raw_line in sys.stdin:
         "address": match.group("address"),
         "function": match.group("function"),
         "format": (match.group("kind") or "").lower(),
-        "message": message,
+        "message": (match.group("message") or "").strip(),
         "raw": line,
     }
 
