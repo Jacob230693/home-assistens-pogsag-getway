@@ -1,0 +1,30 @@
+name: "POCSAG Gateway"
+version: "0.1.0"
+slug: "pocsag_gateway"
+description: "RTL-SDR Blog V4 modtager til POCSAG 2400 via MQTT"
+stage: experimental
+arch:
+  - aarch64
+startup: application
+boot: auto
+init: false
+usb: true
+udev: true
+services:
+  - mqtt:need
+options:
+  frequency: "171.300M"
+  sample_rate: 22050
+  gain: "auto"
+  ppm: 0
+  squelch: 0
+  mqtt_topic: "pager/alarm"
+  retain: false
+schema:
+  frequency: str
+  sample_rate: int(8000,48000)
+  gain: str
+  ppm: int
+  squelch: int(0,1000)
+  mqtt_topic: str
+  retain: bool
