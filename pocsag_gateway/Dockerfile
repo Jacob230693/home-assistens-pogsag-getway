@@ -23,6 +23,7 @@ RUN apk add --no-cache \
   && cmake -S /tmp/rtl-sdr -B /tmp/rtl-sdr/build \
       -DCMAKE_INSTALL_PREFIX=/usr \
       -DDETACH_KERNEL_DRIVER=ON \
+      -DINSTALL_UDEV_RULES=OFF \
   && cmake --build /tmp/rtl-sdr/build --parallel 2 \
   && cmake --install /tmp/rtl-sdr/build \
   && git clone --depth=1 https://github.com/EliasOenal/multimon-ng.git /tmp/multimon-ng \

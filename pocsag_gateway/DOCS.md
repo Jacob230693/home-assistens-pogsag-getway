@@ -1,30 +1,37 @@
 # POCSAG Gateway
 
-Denne lokale Home Assistant-app er lavet til:
+Denne app er kodet til:
 
 - RTL-SDR Blog V4
-- 171,300 MHz
-- POCSAG 2400
-- MQTT-emnet `pager/alarm`
+- Frekvens: **171,300 MHz**
+- Protokol: **POCSAG**
+- Hastighed: **2400 baud**
+- Mosquitto Broker i Home Assistant
 
-## Første start
+## Automatisk oprettede entiteter
 
-Start appen og åbn **Log**. De første linjer skal vise, at RTL-SDR-enheden er fundet.
-Når der modtages en POCSAG-besked, vises den i loggen og publiceres som JSON på
-`pager/alarm`.
+Når appen starter, opretter MQTT Discovery:
 
-## Test i Home Assistant
+- Pager Gateway status
+- Seneste pagerbesked
+- Seneste pager capcode
+- Seneste pager tidspunkt
 
-Gå til:
+## Første test
 
-**Indstillinger → Enheder og tjenester → MQTT → Konfigurer → Lyt til et emne**
+1. Start appen.
+2. Åbn **Log**.
+3. Kontroller, at RTL-SDR findes, og at MQTT viser `gateway online`.
+4. Vent på en lovlig test- eller stationsbesked.
 
-Lyt til:
+Du kan også lytte manuelt på MQTT-emnet:
 
 `pager/#`
 
 ## Justering
 
-- `gain`: Start med `auto`.
-- `ppm`: Start med `0`, fordi RTL-SDR Blog V4 har TCXO.
-- `squelch`: Start med `0`.
+Start med:
+
+- gain: `auto`
+- ppm: `0`
+- squelch: `0`

@@ -1,7 +1,7 @@
 name: "POCSAG Gateway"
-version: "0.1.0"
+version: "0.2.0"
 slug: "pocsag_gateway"
-description: "RTL-SDR Blog V4 modtager til POCSAG 2400 via MQTT"
+description: "Modtager POCSAG 2400 på 171,300 MHz med RTL-SDR Blog V4 og sender til MQTT"
 stage: experimental
 arch:
   - aarch64
@@ -18,13 +18,15 @@ options:
   gain: "auto"
   ppm: 0
   squelch: 0
-  mqtt_topic: "pager/alarm"
-  retain: false
+  mqtt_base_topic: "pager"
+  mqtt_discovery_prefix: "homeassistant"
+  retain_last_message: true
 schema:
   frequency: str
   sample_rate: int(8000,48000)
   gain: str
   ppm: int
   squelch: int(0,1000)
-  mqtt_topic: str
-  retain: bool
+  mqtt_base_topic: str
+  mqtt_discovery_prefix: str
+  retain_last_message: bool
