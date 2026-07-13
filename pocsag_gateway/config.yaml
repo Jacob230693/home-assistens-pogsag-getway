@@ -1,5 +1,5 @@
 name: "POCSAG Gateway"
-version: "0.2.1"
+version: "0.3.0"
 slug: "pocsag_gateway"
 description: "Modtager POCSAG 2400 på 171,300 MHz med RTL-SDR Blog V4 og sender til MQTT"
 stage: experimental
