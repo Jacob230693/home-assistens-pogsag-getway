@@ -39,7 +39,7 @@ DEVICE = {
 
 client = mqtt.Client(
     mqtt.CallbackAPIVersion.VERSION2,
-    client_id="pocsag_gateway",
+    client = mqtt.Client(client_id="pocsag_gateway"),
     clean_session=True,
 )
 if USERNAME:

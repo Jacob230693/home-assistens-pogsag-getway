@@ -33,6 +33,6 @@ export MQTT_HOST MQTT_PORT MQTT_USERNAME MQTT_PASSWORD
 export MQTT_BASE_TOPIC MQTT_DISCOVERY_PREFIX RETAIN_LAST_MESSAGE
 export GATEWAY_FREQUENCY="${FREQUENCY}"
 
-rtl_fm "${RTL_ARGS[@]}" 2> >(sed -u 's/^/[rtl_fm] /' >&2) \
+rtl_fm "${RTL_ARGS[@]}" 2> >(sed's/^/[rtl_fm] /' >&2) \
   | multimon-ng -q -t raw -a POCSAG2400 -f alpha /dev/stdin \
   | python3 -u /parser.py
