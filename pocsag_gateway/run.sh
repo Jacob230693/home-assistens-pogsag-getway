@@ -15,18 +15,18 @@ MQTT_PORT="$(bashio::services mqtt 'port')"
 MQTT_USERNAME="$(bashio::services mqtt 'username')"
 MQTT_PASSWORD="$(bashio::services mqtt 'password')"
 
-bashio::log.info "POCSAG Gateway 4.0 starter"
+bashio::log.info "POCSAG Gateway 4.2 starter"
 bashio::log.info "RTL-SDR: ${FREQUENCY}, POCSAG 2400, sample rate ${SAMPLE_RATE}"
 bashio::log.info "MQTT: ${MQTT_HOST}:${MQTT_PORT}/${MQTT_BASE_TOPIC}"
 
 RTL_ARGS=(-M fm -A fast -E dc -f "${FREQUENCY}" -s "${SAMPLE_RATE}" -p "${PPM}")
 
 if [[ "${GAIN}" != "auto" ]]; then
-  RTL_ARGS+=(-g "${GAIN}")
+    RTL_ARGS+=(-g "${GAIN}")
 fi
 
 if [[ "${SQUELCH}" -gt 0 ]]; then
-  RTL_ARGS+=(-l "${SQUELCH}")
+    RTL_ARGS+=(-l "${SQUELCH}")
 fi
 
 export MQTT_HOST MQTT_PORT MQTT_USERNAME MQTT_PASSWORD
@@ -34,5 +34,5 @@ export MQTT_BASE_TOPIC MQTT_DISCOVERY_PREFIX RETAIN_LAST_MESSAGE
 export GATEWAY_FREQUENCY="${FREQUENCY}"
 
 rtl_fm "${RTL_ARGS[@]}" \
-  | multimon-ng -q -t raw -a POCSAG2400 -f alpha /dev/stdin \
-  | python3 -u /parser.py
+    | multimon-ng -q -t raw -a POCSAG2400 -f alpha /dev/stdin \
+    | python3 -u /parser.py
