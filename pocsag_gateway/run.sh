@@ -15,7 +15,7 @@ MQTT_PORT="$(bashio::services mqtt 'port')"
 MQTT_USERNAME="$(bashio::services mqtt 'username')"
 MQTT_PASSWORD="$(bashio::services mqtt 'password')"
 
-bashio::log.info "POCSAG Gateway 0.2.1 starter"
+bashio::log.info "POCSAG Gateway 4.0 starter"
 bashio::log.info "RTL-SDR: ${FREQUENCY}, POCSAG 2400, sample rate ${SAMPLE_RATE}"
 bashio::log.info "MQTT: ${MQTT_HOST}:${MQTT_PORT}/${MQTT_BASE_TOPIC}"
 
